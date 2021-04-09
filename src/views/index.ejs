@@ -21,8 +21,8 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <script src="scripts/index.js" defer type="module"></script>
+    <script src="/scripts/index.js" defer type="module"></script>
+    <!-- <script src="scripts/index.js" defer type="module"></script> -->
   </head>
   <body id="page-index">
     <header class="page-header">
@@ -34,7 +34,7 @@
             <img src="images/alert-octagon.svg" alt="Alerta" />
             Você tem 2 horas livres no seu dia
           </span>
-          <a href="profile" id="avatar-profile">
+          <a href="/profile" id="avatar-profile">
             <p>Jakeliny <span>Ver perfil</span></p>
             <img
               src="https://avatars.githubusercontent.com/u/17316392?s=460&u=6912a91a70bc89745a2079fdcdad3bc3ce370f13&v=4"
@@ -76,38 +76,47 @@
         <h1 class="sr-only">Trabalhos</h1>
 
         <div class="cards">
-          <div class="card progress" data-id="1">
-            <div class="id column">1</div>
-            <div class="name column">
-              Pizzaria Guloso
+          <% jobs.forEach((job)=>{ %>
+            <div class="card <%= job.status %> " data-id="<%= job.id %>">
+              <div class="id column"><%= job.id %></div>
+              <div class="name column">
+                <%= job.name %>
+              </div>
+              <div class="deadline column">
+                <span>Prazo</span>
+                <p>
+                  <% if(job.status === 'pregress'){ %> 
+                    <%= job.remaining %>  dias para a entrega</p>
+                <%  } else {%> 
+                  Prazo encerrado
+                <%  }%> 
+
+              </div>
+              <div class="amount column">
+                <span>Valor</span>
+                <p>R$ <%= job.budget.toFixed(2).replace('.', ',')  %> </p>
+              </div>
+              <div class="status badge column">
+                <%= job.status === 'done' ? 'Encerrado' : 'Em andamento'  %>
+              </div>
+              <div class="actions column flex">
+                <p class="sr-only">Ações</p>
+                <a 
+                  href="job/<%= job.id %> " 
+                  class="button white edit" 
+                  title="Editar Job">
+                  <img src="images/edit-24.svg" alt="Editar Job" />
+                </a>
+                <button class="delete button white" title="Excluir Job">
+                  <img src="images/trash-24.svg" alt="Excluir Job" />
+                </button>
+              </div>
             </div>
-            <div class="deadline column">
-              <span>Prazo</span>
-              <p>3 dias para a entrega</p>
-            </div>
-            <div class="amount column">
-              <span>Valor</span>
-              <p>R$ 4500,00</p>
-            </div>
-            <div class="status badge column">
-              Em andamento
-            </div>
-            <div class="actions column flex">
-              <p class="sr-only">Ações</p>
-              <a 
-                href="job-edit" 
-                class="button white edit" 
-                title="Editar Job">
-                <img src="images/edit-24.svg" alt="Editar Job" />
-              </a>
-              <button class="delete button white" title="Excluir Job">
-                <img src="images/trash-24.svg" alt="Excluir Job" />
-              </button>
-            </div>
-          </div>
+
+            <% }) %>
           <!-- end card -->
 
-          <div class="card done" data-id="2">
+          <!-- <div class="card done" data-id="2">
             <div class="id column">2</div>
             <div class="name column">
               OneTwo Project
@@ -135,7 +144,7 @@
                 <img src="images/trash-24.svg" alt="Excluir Job" />
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- end cards -->
       </main>
@@ -151,7 +160,7 @@
         <p>
         <footer>
           <a 
-            class="button gray" 
+            class="button gray open-modal" 
             href="#">Cancelar</a>
           <button
             class="button red"
@@ -161,7 +170,7 @@
       </div>
       <form 
         method="post" 
-        action="/job/delete" 
+        action="/job/delete/" 
         id="delete-job"></form>
     </div>
     <!-- end modal-wrapper -->
