@@ -6,10 +6,9 @@ module.exports = {
 
     const jobs = await db.all(`SELECT * FROM jobs`)
     // console.log(data2)
-    await db.close()
+    await db.close();
 
-    return jobs.map(job => ({
-      
+    return jobs.map((job) => ({
         id: job.id,
         name: job.name,
         "daily-hours": job.daily_hours,
@@ -24,7 +23,7 @@ module.exports = {
     await db.run(`UPDATE jobs SET
       name = "${updatedJob.name}",
       daily_hours = ${updatedJob["daily-hours"]},
-      total_hours = ${updatedJob["total_hours"]}
+      total_hours = ${updatedJob["total-hours"]}
       WHERE id = ${jobId}
       `)
   },
@@ -35,8 +34,8 @@ module.exports = {
 
     await db.close()
   },
-  async create(newJob) {
-    const db = await Database()
+  async create(newJob){
+    const db = await Database();
 
     await db.run(`INSERT INTO jobs (
       name,
